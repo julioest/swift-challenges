@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: - Properties
+    // Encapsulation. I like.
     let calculator = Calculator()
 
     // MARK: - View Lifecycle
@@ -52,12 +53,14 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func calculate() {
         // Check if user entered something in textfield
         guard let number = textfield.text, number != "" else {
+            // good reuse of functions here
             displayWarning("Please enter a number")
             return
         }
 
         // Check if user incremented slider
         guard let sliderValue = sliderValueLabel.text, sliderValue != "0" else {
+            // and here
             displayWarning("Please increment slider value")
             return
         }
@@ -68,13 +71,13 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         switch operation {
         case 0:
-            total = calculator.add(a: number, b: sliderValue)
+            total = calculator.add(a: number, b: sliderValue) // beau-
         case 1:
-            total = calculator.subtract(a: number, b: sliderValue)
+            total = calculator.subtract(a: number, b: sliderValue) // tiful
         case 2:
-            total = calculator.multiply(a: number, b: sliderValue)
+            total = calculator.multiply(a: number, b: sliderValue) // method
         case 3:
-            total = calculator.divide(a: number, b: sliderValue)
+            total = calculator.divide(a: number, b: sliderValue) // names
         default:
             break
         }
@@ -90,8 +93,15 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.isEmpty { return true }
 
-        let currentText = textField.text ?? ""
-        let replacementText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        // Safety first and type convert here
+        guard let currentText = textField.text as NSString? else {
+            return true
+        }
+
+        // 1. Casting is nasty try to avoid it. It is unsafe. See: (currentText as NSString)
+        // 2. When you do need to cast (like in this situation) use `guard let` on `textField.text
+        //      it will allow you to cast it safely and not crash your app.
+        let replacementText = currentText.replacingCharacters(in: range, with: string)
 
         return isValidDouble(replacementText, maxDecimalPlaces: 2)
     }
