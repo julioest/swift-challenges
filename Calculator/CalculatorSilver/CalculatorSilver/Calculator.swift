@@ -8,6 +8,11 @@
 
 import Foundation
 
+// I like this class. This could have been a struct but a class was the right call.
+// A class is like a living organism in your program. I can imagine this being the
+// brain and having features like: calculating longer equations where you'll probably
+// need to store memory. I can see caching, history, etc being added. This is headed in
+// the right direction. Whatever you do try your best to avoid making this a singleton.
 class Calculator {
 
     func add(a:String, b:String) -> Double {
